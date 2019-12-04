@@ -1,9 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>DELI-VERY</title>
+      <script src="/socket.io/socket.io.js" defer></script>
+      <script src="https://vuejs.org/js/vue.js"></script>
+      <script src="js/js_script.js" defer></script>
+      <script src="js/vue_script.js" defer></script>
+      <link rel="stylesheet" type="text/css" href="css/style.css">
+      <title>Page title shown in window title</title>
+      <meta charset="utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="css/deli-very.css">
+      <script src="/vue/vue.js" defer></script>
+
     </head>
     <body>
-        <h1>Hello World!!!</h1>
+      <main id = "myID">
+        <h1><span id="title">Welcome to BurgerHeaven Online</span></h1>
+        <img id="headimage" src="https://www.uspoker.com/wp-content/uploads/2015/10/las-vegas-millennials.jpg">
+
+       <section id="burgers">
+          <div class="burgerselect">
+            <div class="box a">
+              <h2>Select burger</h2>
+              <p>This is where you execute burger selection</p>
+            </div>
+
+            <div class="box" v-for="burger in burgers">
+              <div>
+                <h2>{{burger.name}}</h2>
+              </div>
+
+              <div>
+                <img :src="burger.picture" height="200">
+              </div>
+              <div>
+                <ul>
+                  <li>{{burger.kCal}} kCal</li>
+                  <li v-if="burger.gluten">Contains <span class="gluten">gluten</span></li>
+                  <li v-if="burger.lactos">Contains <span class="lactos">lactos</span></li>
+                </ul>
+              </div>
+              <div>
+                <input type="checkbox" name="chooseburger" :value="burger.name" :id="burger.name" v-model="manyBurgers">Choose <br>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="information">
+          <h2>Customer information</h2>
+          <p>This is where you provide necessary information</p>
+          <h3>Delivery information</h3>
+          <p>
+            <label for="Full Name">Full Name</label><br>
+            <input type="text" id="fullname" name="fn" required="requiered" placeholder="Full Name">
+          </p>
+          <p>
+            <label for="E-mail">E-mail</label><br>
+            <input type="email" id="email" name="em" required="requiered" placeholder="E-mail adress">
+          </p>
+        <!--  <p>
+            <label for="Street">Street</label><br>
+            <input type="text" id="street" name="st" required="requiered" placeholder="Street name">
+          </p>
+          <p>
+            <label for="House">House</label><br>
+            <input type="number" id="house" name="ho" required="requiered" placeholder="House number">
+          </p> -->
+          <p>
+            <label for="Payment">Payment method</label><br>
+            <select id="payment" name="pay">
+              <option>Kort</option>
+              <option>Faktura</option>
+              <option>Swish</option>
+            </select>
+          </p>
+          <p>
+            <label for="Choose gender">Choose gender</label><br>
+            <input type="radio" name="gender" value="male" v-model="gender" id="gender"> Male <br>
+            <input type="radio" name="gender" value="female" v-model="gender" id="gender"> Female<br>
+            <input type="radio" name="gender" value="other" v-model="gender" id="gender"> Other<br>
+          </p>
+          </form>
+          <body>
+            <h1> Click in the map! </h1>
+            <a href="/dispatcher" target="_blank">Open dispatcher in new window</a>.
+            <div class="view-box">
+              <div id="dots" v-on:click="displayOrder">
+                  <div
+                    v-bind:style="{ left: details.x + 'px', top: details.y + 'px'}">
+                    T
+                  </div>
+              </div>
+            </div>
+          </body>
+
+          <div id="orders">
+            <p id="noburger" v-if="!manyBurgers.length">Please choose a hamburger</p>
+            <button type="submit" v-if="manyBurgers.length" v-on:click="markDone(); addOrder()"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgV1mcrmk34O_D29uDF-GOoOVZ9XUtxoxuu_umb9bYARQSoGSvOQ&s" width=150></button>
+          </div>
+          </section>
+
+          <section v-for="items in myOrder" id="ConfirmationSection"></p>
+          <p> {{myOrder.burger}} </p>
+
+          <div id="infoBurger">
+            <h3>Burger Info Confirmation {{key}}</h3>
+            <p>Burgers: {{items.burger.join(", ") }}</p>
+          </div>
+
+          <div id="infoCustomer">
+            <h3>Personal Info Confirmation {{key}}</h3>
+            <p>Name: {{items.name}}</p>
+            <p>Email: {{items.email}}</p>
+            <p>Payment: {{items.payment}}</p>
+            <p>Gender: {{items.gender}}</p>
+          </div>
+        </section>
+
+      </main>
+
+      <footer id="foot">
+        <hr>
+          <p> &copy 2019 Hypothetical Burgers Inc </p>
+      </footer>
     </body>
 </html>
